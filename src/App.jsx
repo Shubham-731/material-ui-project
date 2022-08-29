@@ -1,43 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 
-// MUI
-import { Typography, styled, Button } from "@mui/material";
+import {
+  Box,
+  Stack,
+  CssBaseline,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
+
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import RightBar from "./components/RightBar";
+import Feed from "./components/Feed";
+import Add from "./components/Add";
 
 const App = () => {
-  const BlueButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    backgroundColor: "blue",
-    margin: 4,
-    "&:hover": {
-      backgroundColor: "darkblue",
-    },
-  }));
+  const [mode, setMode] = useState("light");
 
-  const SecondaryBtn = styled(Button)(({ theme }) => ({
-    color: theme.palette.primary.main,
-    backgroundColor: theme.palette.secondary.main,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.light,
+  const darkTheme = createTheme({
+    palette: {
+      mode: mode,
     },
-  }));
+  });
 
   return (
     <>
-      <Typography
-        variant="h3"
-        gutterBottom
-        component={"p"}
-        sx={{
-          color: "purple",
-        }}
-      >
-        It uses h3 variant but it's a p tag
-      </Typography>
-      <Typography variant="h6" color={"primary"}>
-        this is h6 tag
-      </Typography>
-      <BlueButton>My button</BlueButton>
-      <SecondaryBtn>Secondary Btn</SecondaryBtn>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Box>
+          <Navbar />
+          <Stack direction={"row"} justifyContent="space-evenly" spacing={2}>
+            <Sidebar handleMode={setMode} mode={mode} />
+            <Feed />
+            <RightBar />
+          </Stack>
+          <Add />
+        </Box>
+      </ThemeProvider>
     </>
   );
 };
